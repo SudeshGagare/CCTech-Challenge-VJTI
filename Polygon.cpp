@@ -17,7 +17,6 @@ bool onSegment(Point p, Point q, Point r)
 	return false; 
 } 
 
-
 int orientation(Point p, Point q, Point r) 
 { 
 	int val = (q.y - p.y) * (r.x - q.x) - 
@@ -25,7 +24,6 @@ int orientation(Point p, Point q, Point r)
 	if (val == 0) return 0; 
 	return (val > 0)? 1: 2; 
 } 
-
 
 bool doIntersect(Point p1, Point q1, Point p2, Point q2) 
 { 
@@ -43,7 +41,6 @@ bool doIntersect(Point p1, Point q1, Point p2, Point q2)
 	if (o4 == 0 && onSegment(p2, q1, q2)) return true; 
 	return false; 
 } 
-
 
 bool isInside(Point polygon[], int n, Point p) 
 { 
@@ -64,7 +61,6 @@ bool isInside(Point polygon[], int n, Point p)
 	
 	return count&1; // Same as (count%2 == 1) 
 } 
-
 
 int main() 
 { 
