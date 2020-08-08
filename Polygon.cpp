@@ -8,68 +8,68 @@ struct Coordinate
 	double y; 
 }; 
 
-bool PresentOnLine(Coordinate p, Coordinate q, Coordinate r) 
+int Direction(Coordinate a, Coordinate b, Coordinate c) 
 { 
-	if (q.x <= max(p.x, r.x) && q.x >= min(p.x, r.x) && 
-			q.y <= max(p.y, r.y) && q.y >= min(p.y, r.y)) 
+	int value = (b.y - a.y) * (c.x - b.x) - 
+			(b.x - a.x) * (c.y - b.y); 
+	if (value == 0) return 0; 
+	return (value > 0)? 1: 2; 
+} 
+
+bool PresentOnLine(Coordinate a, Coordinate b, Coordinate c) 
+{ 
+	if (b.x <= max(a.x, c.x) && b.x >= min(a.x, c.x) && 
+			b.y <= max(a.y, c.y) && b.y >= min(a.y, c.y)) 
 		return true; 
 	return false; 
 } 
 
-int Direction(Coordinate p, Coordinate q, Coordinate r) 
+bool WhetherIntersect(Coordinate a1, Coordinate b1, Coordinate a2, Coordinate b2) 
 { 
-	int val = (q.y - p.y) * (r.x - q.x) - 
-			(q.x - p.x) * (r.y - q.y); 
-	if (val == 0) return 0; 
-	return (val > 0)? 1: 2; 
-} 
-
-bool WhetherIntersect(Coordinate p1, Coordinate q1, Coordinate p2, Coordinate q2) 
-{ 
-	int o1 = direction(p1, q1, p2); 
-	int o2 = direction(p1, q1, q2); 
-	int o3 = direction(p2, q2, p1); 
-	int o4 = direction(p2, q2, q1); 
+	int d1 = Direction(a1, b1, a2); 
+	int d2 = Direction(a1, b1, b2); 
+	int d3 = Direction(a2, b2, a1); 
+	int d4 = Direction(a2, b2, b1); 
 	
-	if (o1 != o2 && o3 != o4) 
+	if (d1 != d2 && d3 != d4) 
 		return true; 
 
-	if (o1 == 0 && PresentOnLine(p1, p2, q1)) return true; 
-	if (o2 == 0 && PresentOnLine(p1, q2, q1)) return true; 
-	if (o3 == 0 && PresentOnLine(p2, p1, q2)) return true; 
-	if (o4 == 0 && PresentOnLine(p2, q1, q2)) return true; 
+	if (d1 == 0 && PresentOnLine(a1, a2, b1)) return true; 
+	if (d2 == 0 && PresentOnLine(a1, b2, b1)) return true; 
+	if (d3 == 0 && PresentOnLine(a2, a1, b2)) return true; 
+	if (d4 == 0 && PresentOnLine(a2, b1, b2)) return true; 
 	return false; 
 } 
 
-bool WhetherPointIsInside(Coordinate polygon[], Coordinate p) 
-{   int n = (sizeof(*polygon));
+bool WhetherPointIsInside(Coordinate poly[], Coordinate p) 
+{   int n = (sizeof(*poly));
 	if (n < 3) return false; 
 	Coordinate extreme = {MAXX, p.y}; 
-	int count = 0, i = 0; 
+	int count = 0, k = 0; 
 	do
 	{ 
-		int next = (i+1)%n; 
-		if (WhetherIntersect(polygon[i], polygon[next], p, extreme)) 
+		int nextpoint = (k+1)%n; 
+		if (WhetherIntersect(poly[k], poly[nextpoint], p, extreme)) 
 		{ 
-			if (direction(polygon[i], p, polygon[next]) == 0) 
-			return PresentOnLine(polygon[i], p, polygon[next]); 
+			if (Direction(poly[k], p, poly[nextpoint]) == 0) 
+			return PresentOnLine(poly[k], p, poly[nextpoint]); 
 			count++; 
 		} 
-		i = next; 
-	} while (i != 0); 
+		k = nextpoint; 
+	} while (k != 0); 
 	
 	return count&1; 
 } 
 
 int main() 
 { 
-	Coordinate polygon1[] = {{1, 0}, {8, 3}, {8, 8}, {1, 5}}; 
+	Coordinate poly[] = {{1, 0}, {8, 3}, {8, 8}, {1, 5}}; 
 	Coordinate p = {3, 5}; 
-	WhetherPointIsInside(polygon1, p)? cout << "True \n": cout << "False \n"; 
+	WhetherPointIsInside(poly, p)? cout << "True \n": cout << "False \n"; 
 
-	Coordinate polygon2[] = {{-3, 2}, {-2, -0.8}, {0, 1.2},{2.2,0},{2,4.5}}; 
+	Coordinate poly1[] = {{-3, 2}, {-2, -0.8}, {0, 1.2},{2.2,0},{2,4.5}}; 
 	p = {0, 0}; 
-	WhetherPointIsInside(polygon2, p)? cout << "True \n": cout << "False \n"; 
+	WhetherPointIsInside(poly1, p)? cout << "True \n": cout << "False \n"; 
 	
 	return 0; 
 }
