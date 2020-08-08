@@ -42,7 +42,7 @@ bool doIntersect(Point p1, Point q1, Point p2, Point q2)
 } 
 
 bool isInside(Point polygon[], Point p) 
-{   int n = (sizeof(polygon));
+{   int n = (sizeof(*polygon));
 	if (n < 3) return false; 
 	Point extreme = {INF, p.y}; 
 	int count = 0, i = 0; 
