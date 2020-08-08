@@ -59,7 +59,7 @@ bool isInside(Point polygon[], int n, Point p)
 		i = next; 
 	} while (i != 0); 
 	
-	return count&1; // Same as (count%2 == 1) 
+	return count&1; 
 } 
 
 int main() 
