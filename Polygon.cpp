@@ -42,8 +42,8 @@ bool doIntersect(Point p1, Point q1, Point p2, Point q2)
 	return false; 
 } 
 
-bool isInside(Point polygon[], int n, Point p) 
-{ 
+bool isInside(Point polygon[], Point p) 
+{       int n = (sizeof(polygon1));
 	if (n < 3) return false; 
 	Point extreme = {INF, p.y}; 
 	int count = 0, i = 0; 
@@ -65,14 +65,12 @@ bool isInside(Point polygon[], int n, Point p)
 int main() 
 { 
 	Point polygon1[] = {{1, 0}, {8, 3}, {8, 8}, {1, 5}}; 
-	int n = sizeof(polygon1)/sizeof(polygon1[0]); 
 	Point p = {3, 5}; 
-	isInside(polygon1, n, p)? cout << "True \n": cout << "False \n"; 
+	isInside(polygon1, p)? cout << "True \n": cout << "False \n"; 
 
 	Point polygon2[] = {{-3, 2}, {-2, -0.8}, {0, 1.2},{2.2,0},{2,4.5}}; 
 	p = {0, 0}; 
-	n = sizeof(polygon2)/sizeof(polygon2[0]); 
-	isInside(polygon2, n, p)? cout << "True \n": cout << "False \n"; 
+	isInside(polygon2, p)? cout << "True \n": cout << "False \n"; 
 	
 	return 0; 
 }
